@@ -1,0 +1,40 @@
+#sequencerView{
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 40px;
+	width: 100%;
+	background: rgba(255,255,255,0.91);
+	color: black;
+	border-bottom: 1px solid rgba(0,0,0,.1);
+	// cursor: pointer;
+	overflow: hidden;
+	.viewTitle{
+		text-align: center;
+		font-size: 28px;
+		line-height: 40px;
+	}
+	.showToggle{
+		position: absolute;
+		right: 8px;
+		top: 8px;
+		background: white;
+		border: 1px solid black;
+		cursor: pointer;
+	}
+
+	.playbackItemWrapper{
+		margin: 40px auto;
+		position: relative;
+	}
+
+	.removeBtn{
+		position: absolute;
+		right: 0px;
+		top: -10px;
+		background: white;
+		border: 1px solid black;
+		cursor: pointer;
+	}
+
+}

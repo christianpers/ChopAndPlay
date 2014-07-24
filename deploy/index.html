@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>___Chop And Play___</title>
+		
+
+		<link rel="stylesheet" type="text/css" href="../files/css/main.css">
+
+
+	
+	
+
+	<script>
+
+		window.globalObj = {};
+		window.globalObj.main = {};
+
+		function init(){
+
+			globalObj.main.audioCtx = new webkitAudioContext();
+
+			globalObj.main.soundController = new globalObj.SoundController();
+			globalObj.main.soundController.init(document.getElementById('soundController'));
+
+			globalObj.main.sequencer = new globalObj.Sequencer();
+			globalObj.main.sequencer.init(document.getElementById('sequencerView'));
+
+			requestAnimationFrame(updateVisuals);
+
+		};
+
+		function updateVisuals(){
+
+			globalObj.main.sequencer.updateVisuals();
+
+			requestAnimationFrame(updateVisuals);
+		};
+
+	</script>
+
+
+	<script src="js/ChopAndPlay/Sequencer.js"></script>
+	<script src="js/ChopAndPlay/PlaybackItem.js"></script>
+	<script src="js/ChopAndPlay/SoundController.js"></script>
+	<script src="js/ChopAndPlay/Sound.js"></script>
+
+	</head>
+
+
+
+	<body onload="init()">
+		<div id="wrapper">
+			
+			<div id="soundController" class="initUI">
+				
+			</div>
+
+			<div id="sequencerView">
+				<button class="showToggle">Show/Hide</button>
+				<h4 class="viewTitle sequencer">SEQUENCER</h4>
+				<div class='content'></div>
+			</div>
+		
+		</div>
+
+
+		
+	</body>
+</html>

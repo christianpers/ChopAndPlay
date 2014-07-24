@@ -1,0 +1,69 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "debian-wheezy72-x64-vbox43"
+  config.vm.box_url = "http://box.puphpet.com/debian-wheezy72-x64-vbox43.box"
+
+  config.vm.network "private_network", ip: "192.168.56.101"
+
+  config.vm.network "forwarded_port", guest: 22, host: 5374
+
+  config.vm.network :forwarded_port, host: 4567, guest: 80
+
+  config.vm.synced_folder "../deploy", "/var/www", id: "vagrant-root", :nfs => false
+
+  #config.vm.usable_port_range = (2200..2250)
+  #config.vm.provider :virtualbox do |virtualbox|
+  #  virtualbox.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+  #  virtualbox.customize ["modifyvm", :id, "--memory", "512"]
+  #  virtualbox.customize ["setextradata", :id, "--VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+  #end
+
+  #config.vm.define "peer_node" do |peer_node|
+  #  peer_node.vm.box = "debian-wheezy72-x64-vbox43"
+  #  peer_node.vm.box_url = "http://box.puphpet.com/debian-wheezy72-x64-vbox43.box"
+  #  peer_node.vm.network "private_network", ip: "192.168.56.103"
+  #  #web.vm.network :forwarded_port, host: 4567, guest: 80
+  #  peer_node.vm.synced_folder "/Users/christian/Sites/WebRTC_Test/deploy/nodeServer", "/var/www", id: "vagrant-root", :nfs => false
+  #end
+
+  #config.vm.define "peer_server" do |peer_server|
+  #  peer_server.vm.box = "debian-wheezy72-x64-vbox43"
+  #  peer_server.vm.box_url = "http://box.puphpet.com/debian-wheezy72-x64-vbox43.box"
+  #  peer_server.vm.network "private_network", ip: "192.168.56.101"
+  #  #web.vm.network :forwarded_port, host: 4567, guest: 80
+  #  peer_server.vm.synced_folder "/Users/christian/Sites/WebRTC_Test/deploy/server", "/var/www", id: "vagrant-root", :nfs => false
+  #end
+
+  #config.vm.define "peer_client" do |peer_client|
+  #  peer_client.vm.box = "debian-wheezy72-x64-vbox43"
+  #  peer_client.vm.box_url = "http://box.puphpet.com/debian-wheezy72-x64-vbox43.box"
+  #  peer_client.vm.network "private_network", ip: "192.168.56.102"
+  #  peer_client.vm.network :forwarded_port, host: 4567, guest: 80, protocol: 'tcp'
+  #  peer_client.vm.synced_folder "/Users/christian/Sites/WebRTC_Test/deploy/client", "/var/www", id: "vagrant-root", :nfs => false
+  #end
+
+  config.vm.provision :shell, :path => "puphpet/shell/initial-setup.sh"
+  config.vm.provision :shell, :path => "puphpet/shell/update-puppet.sh"
+  config.vm.provision :shell, :path => "puphpet/shell/librarian-puppet-vagrant.sh"
+  config.vm.provision :puppet do |puppet|
+    puppet.facter = {
+      "ssh_username" => "vagrant"
+    }
+
+    puppet.manifests_path = "puphpet/puppet/manifests"
+    puppet.options = ["--verbose", "--hiera_config /vagrant/puphpet/puppet/hiera.yaml", "--parser future"]
+  end
+
+  config.vm.provision :shell, :path => "puphpet/shell/execute-files.sh"
+
+
+
+  config.ssh.username = "vagrant"
+
+  config.ssh.shell = "bash -l"
+
+  config.ssh.keep_alive = true
+  config.ssh.forward_agent = false
+  config.ssh.forward_x11 = true
+  config.vagrant.host = :detect
+end
+
