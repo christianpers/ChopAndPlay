@@ -19,7 +19,7 @@
 
 		
 
-		this.soundUrls = ['files/music/dhol-beat.wav','files/music/tanpura2.wav', 'files/music/tas3.wav', 'files/music/indianflute1.wav', 'files/music/indianflute2.wav'];
+		this.soundUrls = ['files/music/dhol-beat-small.wav','files/music/tanpura2.wav', 'files/music/tas3.wav', 'files/music/indianflute1.wav', 'files/music/indianflute2.wav'];
 
 		this.loadSound(this.soundUrls.shift());
 
